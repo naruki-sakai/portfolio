@@ -219,7 +219,7 @@ export default async function AboutPage() {
               <div className="mt-12">
                 <TransitionLink
                   href="/works"
-                  className="works-btn relative inline-flex items-center justify-center font-['Oswald'] px-28 py-7 text-xl font-light text-gray-900"
+                  className="works-btn relative inline-flex items-center justify-center font-oswald px-28 py-7 text-xl font-light text-gray-900"
                 >
                   View All Works
                   <span className="works-btn__arrow absolute right-14">

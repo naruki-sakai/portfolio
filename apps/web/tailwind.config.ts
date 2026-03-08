@@ -6,7 +6,12 @@ const config: Config = {
     "../../packages/ui/src/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-noto-sans-jp)", "sans-serif"],
+        oswald: ["var(--font-oswald)", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };

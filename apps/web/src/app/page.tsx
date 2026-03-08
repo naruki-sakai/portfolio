@@ -3,7 +3,7 @@ import { ScrollIndicator } from "@/components/scroll-indicator";
 
 export default function TopPage() {
   const sharedProps = {
-    fontFamily: "Oswald, sans-serif",
+    fontFamily: "var(--font-oswald), sans-serif",
     letterSpacing: "0.04em",
     density: 1.6,
     particleSize: 2.5,

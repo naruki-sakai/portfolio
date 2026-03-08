@@ -40,7 +40,7 @@ export function ScrollText() {
     >
       <div
         ref={textRef}
-        className="whitespace-nowrap font-['Oswald'] font-bold uppercase leading-none text-gray-200"
+        className="whitespace-nowrap font-oswald font-bold uppercase leading-none text-gray-200"
         style={{
           fontSize: "clamp(100px, 14vw, 260px)",
           letterSpacing: "0.04em",

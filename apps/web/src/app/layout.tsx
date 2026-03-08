@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Noto_Sans_JP, Oswald } from "next/font/google";
 import { SideNav } from "@/components/side-nav";
 import { TransitionProvider } from "@/components/transition-provider";
 import { ScrollNavigate } from "@/components/scroll-navigate";
@@ -6,6 +7,20 @@ import { SmoothScroll } from "@/components/smooth-scroll";
 import { PageContent } from "@/components/page-content";
 import { NoiseBackground } from "@/components/noise-background";
 import "./globals.css";
+
+const notoSansJP = Noto_Sans_JP({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-noto-sans-jp",
+  display: "swap",
+});
+
+const oswald = Oswald({
+  subsets: ["latin"],
+  weight: ["200", "300", "400"],
+  variable: "--font-oswald",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Naruki Sakai｜Portfolio",
@@ -31,19 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className="bg-gray-50">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Oswald:wght@200..400&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="ja" className={`bg-gray-50 ${notoSansJP.variable} ${oswald.variable}`}>
       <body className="min-h-screen text-gray-900 antialiased isolation-isolate">
         <NoiseBackground />
         <TransitionProvider>

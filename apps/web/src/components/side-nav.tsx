@@ -29,7 +29,7 @@ function NavLink({
         e.preventDefault();
         onClick(item.href);
       }}
-      className={`relative flex items-center gap-2 font-['Oswald'] text-sm font-normal tracking-[0.05em] transition-colors hover:text-gray-900 ${
+      className={`relative flex items-center gap-2 font-oswald text-sm font-normal tracking-[0.05em] transition-colors hover:text-gray-900 ${
         isActive ? "text-gray-900" : "text-gray-400"
       }`}
     >
@@ -149,7 +149,7 @@ function MobileNav({
                   e.preventDefault();
                   handleNav(item.href);
                 }}
-                className={`group relative font-['Oswald'] text-2xl font-light tracking-[0.08em] transition-all duration-500 ${
+                className={`group relative font-oswald text-2xl font-light tracking-[0.08em] transition-all duration-500 ${
                   isOpen
                     ? "translate-x-0 opacity-100"
                     : "translate-x-8 opacity-0"

@@ -64,7 +64,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
     <div className="flex h-full flex-col">
       {/* ヘッダーバー */}
       <div className="mb-4 flex items-end gap-8 max-md:flex-col max-md:items-start max-md:gap-5">
-        <h1 className="text-5xl font-extralight tracking-wide" style={{ fontFamily: "Oswald, sans-serif" }}>
+        <h1 className="text-5xl font-extralight tracking-wide font-oswald">
           Works
         </h1>
         <div className="w-full max-w-[650px] shadow-sm rounded-lg">

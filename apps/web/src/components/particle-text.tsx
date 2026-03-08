@@ -66,6 +66,14 @@ interface ParticleTextProps {
 const GRAY_COLOR = "#9CA3AF";
 const DARK_RATIO = 0.9;
 
+/** Resolve CSS variable references (e.g. "var(--font-oswald), sans-serif") to actual values */
+function resolveFont(fontFamily: string): string {
+  if (typeof window === "undefined") return fontFamily;
+  return fontFamily.replace(/var\(([^)]+)\)/g, (_, varName) => {
+    return getComputedStyle(document.documentElement).getPropertyValue(varName.trim()).trim();
+  });
+}
+
 function hexToRgb(hex: string): [number, number, number] {
   const n = parseInt(hex.slice(1), 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
@@ -119,7 +127,8 @@ export function ParticleText({
     (ctx: CanvasRenderingContext2D) => {
       const dpr = window.devicePixelRatio || 1;
       const { w, h } = sizeRef.current;
-      const font = `bold ${fontSize}px ${fontFamily}`;
+      const resolved = resolveFont(fontFamily);
+      const font = `bold ${fontSize}px ${resolved}`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
       ctx.font = font;
@@ -143,7 +152,8 @@ export function ParticleText({
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
-    const font = `bold ${fontSize}px ${fontFamily}`;
+    const resolved = resolveFont(fontFamily);
+    const font = `bold ${fontSize}px ${resolved}`;
     const paddingX = Math.ceil(fontSize * 3);
     const paddingY = Math.ceil(fontSize * 3);
     const lineHeight = fontSize * 1.4;
@@ -266,7 +276,8 @@ export function ParticleText({
     const dpr = window.devicePixelRatio || 1;
     const { w, h } = sizeRef.current;
     const chars = charsRef.current;
-    const font = `bold ${fontSize}px ${fontFamily}`;
+    const resolved = resolveFont(fontFamily);
+    const font = `bold ${fontSize}px ${resolved}`;
     const mouse = mouseRef.current;
     let anyMoving = false;
 

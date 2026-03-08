@@ -4,7 +4,7 @@
 
 /* フォント設定 */
 body {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: var(--font-noto-sans-jp), sans-serif;
 }
 
 h1,
@@ -13,7 +13,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Oswald", sans-serif;
+  font-family: var(--font-oswald), sans-serif;
 }
 
 h2,
