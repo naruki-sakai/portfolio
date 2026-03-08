@@ -1,0 +1,396 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* フォント設定 */
+body {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Oswald", sans-serif;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+/* Rich content (works detail page) */
+.rich-content h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.rich-content h3 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.rich-content h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.rich-content p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.75;
+}
+.rich-content ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+.rich-content ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  list-style-type: decimal;
+}
+.rich-content li {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.65;
+}
+.rich-content li > p {
+  margin: 0;
+}
+.rich-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.rich-content a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+.rich-content a:hover {
+  color: #1d4ed8;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section fade-in                                                    */
+/* ------------------------------------------------------------------ */
+
+.fade-section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.fade-section[data-ready="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Works line animation                                               */
+/* ------------------------------------------------------------------ */
+
+.works-line {
+  position: relative;
+  width: 1px;
+  height: 80px;
+  background-color: rgba(209, 213, 219, 0.4);
+  overflow: hidden;
+}
+
+.works-line::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(107, 114, 128, 0.6);
+  animation: line-flow 2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+@keyframes line-flow {
+  0% {
+    top: -100%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Works button arrow                                                 */
+/* ------------------------------------------------------------------ */
+
+.works-btn__arrow {
+  overflow: hidden;
+  height: 28px;
+  width: 28px;
+}
+
+.works-btn__arrow svg {
+  transform: translateY(0);
+}
+
+.works-btn:hover .works-btn__arrow svg {
+  animation: arrow-bounce 2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+@keyframes arrow-bounce {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  31% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Slat overlay (PHASE 1: closing)                                    */
+/* ------------------------------------------------------------------ */
+
+.slat-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.slat-overlay__bar {
+  flex: 1;
+  background-color: #111827;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  will-change: transform;
+  margin: -0.5px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Full curtain (PHASE 2: opening)                                    */
+/* ------------------------------------------------------------------ */
+
+.full-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background-color: #111827;
+  transform: translateY(0);
+  will-change: transform;
+  visibility: hidden;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reveal card (Skills)                                               */
+/* ------------------------------------------------------------------ */
+
+.reveal-card {
+  position: relative;
+  border-radius: 0.75rem;
+  border: none;
+  box-shadow: 0 2px 16px rgba(0 0 0 / 0.08);
+  background-color: rgba(255 255 255 / 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  min-height: 240px;
+}
+
+.reveal-card__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 2rem;
+  height: 100%;
+}
+
+.reveal-card__overlay {
+  position: absolute;
+  inset: 0;
+  padding: 1.5rem 2rem;
+  background-color: rgb(17 24 39);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reveal-card__overlay h3 {
+  color: white;
+}
+
+.reveal-card__overlay p {
+  color: #fff;
+}
+
+.reveal-card:hover .reveal-card__overlay {
+  clip-path: inset(0 0 0 0);
+}
+
+/* モバイル: タップ可能にするためフォーカス対応 */
+@media (hover: none) {
+  .reveal-card {
+    cursor: pointer;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Works horizontal scroll                                            */
+/* ------------------------------------------------------------------ */
+
+.works-scroll-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.works-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.works-progress {
+  height: 3px;
+  background-color: rgba(209, 213, 219, 0.4);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.works-progress__bar {
+  height: 100%;
+  width: 100%;
+  background-color: #111827;
+  transform-origin: left;
+  transition: transform 0.15s ease-out;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Project card                                                       */
+/* ------------------------------------------------------------------ */
+
+.project-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0 0 0 / 0);
+  transition: background-color 0.35s ease;
+}
+
+.project-card__overlay h3,
+.project-card__overlay span {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.project-card:hover .project-card__overlay {
+  background-color: rgba(0 0 0 / 0.55);
+}
+
+.project-card:hover .project-card__overlay h3,
+.project-card:hover .project-card__overlay span {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card:hover .project-card__overlay span {
+  transition-delay: 0.08s;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scroll indicator (top page)                                        */
+/* ------------------------------------------------------------------ */
+
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scroll-indicator__line {
+  position: relative;
+  width: 20px;
+  height: 96px;
+  overflow: hidden;
+}
+
+.scroll-indicator__line::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background-color: rgba(156, 163, 175, 0.3);
+}
+
+.scroll-indicator__dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 5px;
+  background-color: #111827;
+  border-radius: 50%;
+  animation: scroll-dot 2.4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+@keyframes scroll-dot {
+  0% {
+    top: 0px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    top: 90px;
+    opacity: 0;
+  }
+}
