@@ -4,6 +4,7 @@ export function ScrollIndicator() {
       <div className="scroll-indicator__line">
         <div className="scroll-indicator__dot" />
       </div>
+      <span className="scroll-indicator__text">Scroll</span>
     </div>
   );
 }

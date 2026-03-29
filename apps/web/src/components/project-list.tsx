@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import gsap from "gsap";
 import { Tabs } from "@portfolio/ui";
 import type { Project } from "@portfolio/lib";
 import { ProjectCard } from "@/components/project-card";
@@ -15,12 +16,19 @@ const FILTER_TABS = [
 export function ProjectList({ projects }: { projects: Project[] }) {
   const [activeTab, setActiveTab] = useState("all");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const canAnimateRef = useRef(true);
+  const prevAbsDeltaRef = useRef(0);
+  const decayingRef = useRef(false);
+  const gestureTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [progress, setProgress] = useState(0);
 
-  const filtered =
-    activeTab === "all"
-      ? projects
-      : projects.filter((p) => p.category === activeTab);
+  const filtered = useMemo(
+    () =>
+      activeTab === "all"
+        ? projects
+        : projects.filter((p) => p.category === activeTab),
+    [projects, activeTab],
+  );
 
   const updateProgress = useCallback(() => {
     const el = scrollRef.current;
@@ -35,22 +43,89 @@ export function ProjectList({ projects }: { projects: Project[] }) {
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
+      const container = scrollRef.current;
+      if (!container) return;
       if (window.innerWidth < 768) return;
       if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
       e.preventDefault();
 
-      el.scrollLeft += e.deltaY;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      const delta = e.deltaY * 2.5;
+      const target = Math.max(
+        0,
+        Math.min(container.scrollLeft + delta, maxScroll),
+      );
+
+      // カード縮小アニメーション（慣性 vs 手動スクロール判定）
+      const absDelta = Math.abs(e.deltaY);
+
+      // 慣性中に deltaY が増加 → 新しい手動スクロールと判定
+      if (
+        !canAnimateRef.current &&
+        decayingRef.current &&
+        absDelta > prevAbsDeltaRef.current + 5
+      ) {
+        canAnimateRef.current = true;
+        decayingRef.current = false;
+      }
+
+      // 減衰パターン検知（慣性の特徴）
+      if (absDelta < prevAbsDeltaRef.current) {
+        decayingRef.current = true;
+      }
+
+      prevAbsDeltaRef.current = absDelta;
+
+      // アニメーション発火（スクロール開始時に1回）
+      if (canAnimateRef.current) {
+        canAnimateRef.current = false;
+        const cards = container.querySelectorAll(".works-scroll-card");
+        cards.forEach((card) => card.classList.add("is-scrolling"));
+      }
+
+      // スクロール完全停止後にリセット
+      clearTimeout(gestureTimerRef.current);
+      gestureTimerRef.current = setTimeout(() => {
+        canAnimateRef.current = true;
+        decayingRef.current = false;
+        prevAbsDeltaRef.current = 0;
+      }, 200);
+
+      // スムーズな横スクロール
+      gsap.to(container, {
+        scrollLeft: target,
+        duration: 0.5,
+        ease: "power2.out",
+        overwrite: true,
+        onUpdate: () => updateProgress(),
+      });
+    };
+
+    // animationend でクラスを除去（canAnimate のリセットはしない）
+    const onAnimEnd = (e: AnimationEvent) => {
+      if (e.animationName === "card-squeeze") {
+        (e.currentTarget as HTMLElement).classList.remove("is-scrolling");
+      }
     };
 
     el.addEventListener("wheel", onWheel, { passive: false });
     el.addEventListener("scroll", updateProgress, { passive: true });
     updateProgress();
 
+    const cards = el.querySelectorAll(".works-scroll-card");
+    cards.forEach((card) =>
+      card.addEventListener("animationend", onAnimEnd as EventListener),
+    );
+
     return () => {
+      clearTimeout(gestureTimerRef.current);
       el.removeEventListener("wheel", onWheel);
       el.removeEventListener("scroll", updateProgress);
+      cards.forEach((card) =>
+        card.removeEventListener("animationend", onAnimEnd as EventListener),
+      );
     };
-  }, [filtered, updateProgress]);
+  }, [updateProgress]);
 
   // フィルタ変更時にスクロール位置リセット
   useEffect(() => {

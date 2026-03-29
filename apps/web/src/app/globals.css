@@ -286,6 +286,20 @@ h6 {
   display: none;
 }
 
+.works-scroll-card {
+  transform-origin: center center;
+}
+
+@keyframes card-squeeze {
+  0%   { transform: scaleY(1); }
+  30%  { transform: scaleY(0.93); }
+  100% { transform: scaleY(1); }
+}
+
+.works-scroll-card.is-scrolling {
+  animation: card-squeeze 0.5s ease-in-out;
+}
+
 .works-progress {
   height: 3px;
   background-color: rgba(209, 213, 219, 0.4);
@@ -376,6 +390,13 @@ h6 {
   background-color: #111827;
   border-radius: 50%;
   animation: scroll-dot 2.4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.scroll-indicator__text {
+  margin-top: 15px;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(156, 163, 175, 0.6);
 }
 
 @keyframes scroll-dot {
