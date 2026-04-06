@@ -66,13 +66,25 @@ export function NoiseBackground() {
       }
     };
 
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        stopped = true;
+        cancelAnimationFrame(animationId);
+      } else if (!prefersReduced.matches) {
+        stopped = false;
+        loop();
+      }
+    };
+
     prefersReduced.addEventListener("change", onMotionChange);
+    document.addEventListener("visibilitychange", onVisibilityChange);
     window.addEventListener("resize", resize);
 
     return () => {
       stopped = true;
       cancelAnimationFrame(animationId);
       prefersReduced.removeEventListener("change", onMotionChange);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", resize);
     };
   }, []);

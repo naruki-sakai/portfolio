@@ -38,6 +38,14 @@ export function ProjectList({ projects }: { projects: Project[] }) {
   }, []);
 
   // ホイール縦→横スクロール変換
+  // Worksページ表示中はbodyのオーバースクロール（macOSラバーバンド）を無効化
+  useEffect(() => {
+    document.body.style.overscrollBehavior = "none";
+    return () => {
+      document.body.style.overscrollBehavior = "";
+    };
+  }, []);
+
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -46,8 +54,18 @@ export function ProjectList({ projects }: { projects: Project[] }) {
       const container = scrollRef.current;
       if (!container) return;
       if (window.innerWidth < 768) return;
-      if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+
+      const absX = Math.abs(e.deltaX);
+      const absY = Math.abs(e.deltaY);
+
+      // デスクトップでは全てのホイールイベントを奪い、bodyへの伝播を防ぐ
       e.preventDefault();
+
+      // 横スワイプ（トラックパッド）→ 横スライドはしない
+      if (absX > absY) return;
+
+      // 縦スクロールが小さすぎる場合はスライドしない
+      if (absY < 5) return;
 
       const maxScroll = container.scrollWidth - container.clientWidth;
       const delta = e.deltaY * 2.5;
@@ -94,9 +112,9 @@ export function ProjectList({ projects }: { projects: Project[] }) {
       // スムーズな横スクロール
       gsap.to(container, {
         scrollLeft: target,
-        duration: 0.5,
+        duration: 0.3,
         ease: "power2.out",
-        overwrite: true,
+        overwrite: "auto",
         onUpdate: () => updateProgress(),
       });
     };

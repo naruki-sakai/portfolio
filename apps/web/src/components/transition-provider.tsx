@@ -92,9 +92,9 @@ export function TransitionProvider({
       // full-curtain には触れない（hidden のまま）
       tl.to(slatElements, {
         scaleY: 1,
-        duration: 0.5,
+        duration: 0.35,
         ease: "power2.inOut",
-        stagger: { each: 0.03, from: "end" },
+        stagger: { each: 0.02, from: "end" },
       });
     }
 
@@ -114,7 +114,7 @@ export function TransitionProvider({
       // 3. カーテンを上にスライドして次ページを露出
       tl.to(curtain, {
         y: "-100%",
-        duration: 0.65,
+        duration: 0.45,
         ease: "power3.inOut",
       });
     }
@@ -139,7 +139,7 @@ export function TransitionProvider({
 
   useEffect(() => {
     if (phase === "waiting") {
-      const timer = setTimeout(() => setPhase("opening"), 2000);
+      const timer = setTimeout(() => setPhase("opening"), 1500);
       return () => clearTimeout(timer);
     }
   }, [phase]);

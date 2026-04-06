@@ -32,7 +32,7 @@ export const metadata: Metadata = {
       "Webコーダー/フロントエンドエンジニア 酒井成来のポートフォリオサイト。コーポレートサイト・ECサイト・LPなどの制作実績を掲載しています。",
     url: "https://naruki-portfolio.vercel.app",
     siteName: "Naruki Sakai｜Portfolio",
-    images: [{ url: "/ogp.jpg", width: 1200, height: 630 }],
+    images: [{ url: "/ogp.webp", width: 1200, height: 630 }],
     type: "website",
   },
   twitter: {

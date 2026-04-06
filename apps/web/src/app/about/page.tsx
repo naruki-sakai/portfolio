@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { ChevronDown } from "lucide-react";
 import { RevealCard } from "@/components/flip-card";
 import { TransitionLink } from "@/components/transition-link";
@@ -5,9 +6,12 @@ import { FadeInSection } from "@/components/fade-in-section";
 import { supabase, sortProjects } from "@portfolio/lib";
 import type { Project } from "@portfolio/lib";
 import { ProjectCard } from "@/components/project-card";
-import { ScrollText } from "@/components/scroll-text";
 
-export const dynamic = "force-dynamic";
+const ScrollText = dynamic(
+  () => import("@/components/scroll-text").then((m) => m.ScrollText),
+);
+
+export const revalidate = 3600;
 
 const HISTORY = [
   {

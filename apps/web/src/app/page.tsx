@@ -1,5 +1,15 @@
-import { ParticleText } from "@/components/particle-text";
-import { ScrollIndicator } from "@/components/scroll-indicator";
+"use client";
+
+import dynamic from "next/dynamic";
+
+const ParticleText = dynamic(
+  () => import("@/components/particle-text").then((m) => m.ParticleText),
+  { ssr: false }
+);
+const ScrollIndicator = dynamic(
+  () => import("@/components/scroll-indicator").then((m) => m.ScrollIndicator),
+  { ssr: false }
+);
 
 export default function TopPage() {
   const sharedProps = {

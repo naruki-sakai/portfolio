@@ -1,9 +1,13 @@
+import dynamic from "next/dynamic";
 import { supabase, sortProjects } from "@portfolio/lib";
 import type { Project } from "@portfolio/lib";
-import { ProjectList } from "@/components/project-list";
 import { FadeInSection } from "@/components/fade-in-section";
 
-export const dynamic = "force-dynamic";
+const ProjectList = dynamic(
+  () => import("@/components/project-list").then((m) => m.ProjectList),
+);
+
+export const revalidate = 3600;
 
 export default async function WorksPage() {
   const { data } = await supabase

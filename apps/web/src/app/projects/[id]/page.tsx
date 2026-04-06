@@ -6,7 +6,7 @@ import type { Project } from "@portfolio/lib";
 import { renderRichContent } from "@/lib/render-rich-content";
 import { FadeInSection } from "@/components/fade-in-section";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export default async function ProjectDetailPage({
   params,
